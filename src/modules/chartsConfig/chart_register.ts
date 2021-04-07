@@ -1,24 +1,20 @@
-import {
-  IChartConfiguration,
-  IDataModel,
-  SvgD3Selection,
-} from "../interfaces/charts";
+import { IChartConfiguration, IDataModel, SvgD3Selection } from "../interfaces/charts"
 interface Chart {
   draw: (
     nodeElement: SvgD3Selection,
     chartConfiguration: IChartConfiguration,
     dataModel: IDataModel,
-    data: object[]
-  ) => void;
+    data: any[]
+  ) => void
 }
 interface Registry {
-  [key: string]: Chart;
+  [key: string]: Chart
 }
 
-const registry: Registry = {};
+const registry: Registry = {}
 
 export const registerChart = (type: string, chart: Chart) => {
-  return (registry[type] = chart);
-};
+  return (registry[type] = chart)
+}
 
-export const getChart = (type: string) => registry[type];
+export const getChart = (type: string) => registry[type]

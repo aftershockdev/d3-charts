@@ -1,4 +1,8 @@
-import { IChartConfiguration, IDataModel } from "../interfaces/charts";
+import {
+  IChartConfiguration,
+  IDataModel,
+  DataTypeEnum,
+} from "../interfaces/charts";
 interface IElement {
   [key: string]: string | number;
 }
@@ -8,7 +12,7 @@ export const chartDataConfiguration = (
   chartConfiguration: IChartConfiguration,
   dataModel: IDataModel
 ): object[] => {
-  const configuratedData: object[] = [];
+  const resultData: object[] = [];
   let columnType: string;
 
   dataModel.columns[chartConfiguration.x].columnName === chartConfiguration.x
@@ -19,7 +23,7 @@ export const chartDataConfiguration = (
         } is not (chartConfiguration.x)`
       );
 
-  if (columnType === "date") {
+  if (columnType === DataTypeEnum.date) {
     const result = data.map((el: IElement) => {
       if (el[chartConfiguration.x] && el[chartConfiguration.y]) {
         const d = {
@@ -30,7 +34,7 @@ export const chartDataConfiguration = (
       }
     });
 
-    configuratedData.push(...result);
+    resultData.push(...result);
   } else {
     const result = data.map((el: IElement) => {
       if (el[chartConfiguration.x] && el[chartConfiguration.y]) {
@@ -42,8 +46,8 @@ export const chartDataConfiguration = (
       }
     });
 
-    configuratedData.push(...result);
+    resultData.push(...result);
   }
 
-  return configuratedData;
+  return resultData;
 };

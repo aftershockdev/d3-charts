@@ -19,19 +19,19 @@ export interface IChartConfiguration {
   y: string;
 }
 
+export interface ISettings {
+  width: number;
+  height: number;
+  margin: { [key: string]: number };
+}
+
+export interface IScaleFunc {
+  [key: string]: string;
+}
+
+export type SvgD3Selection = Selection<SVGElement, any, Element, any>;
 export enum DataTypeEnum {
   string = "string",
   number = "number",
   date = "date",
 }
-
-export interface IValue {
-  value: string;
-}
-export interface IDate {
-  date: string;
-}
-export interface INumber {
-  [key: string]: number | NumberValue;
-}
-export type SvgD3Selection = Selection<SVGElement, any, Element, any>;

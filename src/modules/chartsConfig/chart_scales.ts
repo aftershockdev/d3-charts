@@ -1,15 +1,17 @@
 import * as d3 from "d3";
 
-import { IValue, IDate } from "../interfaces/charts";
-import { IChartConfiguration, IDataModel } from "../interfaces/charts";
+import { IScaleFunc } from "../interfaces/charts";
 
-interface IDefaults {
-  [key: string]: any;
-}
+import {
+  IChartConfiguration,
+  IDataModel,
+  ISettings,
+  DataTypeEnum,
+} from "../interfaces/charts";
 
-export const createXscale = (
+export const createScaleX = (
   data: object[],
-  defaults: IDefaults,
+  settings: ISettings,
   chartConfiguration: IChartConfiguration,
   dataModel: IDataModel
 ): d3.ScaleTime<number, number, never> | d3.ScaleBand<any> => {
@@ -24,34 +26,34 @@ export const createXscale = (
         } is not (chartConfiguration.x)`
       );
 
-  if (columnType === "date") {
+  if (columnType === DataTypeEnum.date) {
     x = d3
       .scaleTime()
-      .domain(<any>d3.extent(data, (d: IDate) => d.date))
-      .range([defaults.margin.left, defaults.width]);
-  } else if (columnType === "string") {
+      .domain(<any>d3.extent(data, (d: IScaleFunc) => d.date))
+      .range([settings.margin.left, settings.width]);
+  } else if (columnType === DataTypeEnum.string) {
     x = d3
       .scaleBand()
-      .domain(<any>data.map((d: IDate) => d.date))
-      .range([defaults.margin.left, defaults.width]);
+      .domain(<any>data.map((d: IScaleFunc) => d.date))
+      .range([settings.margin.left, settings.width]);
   } else {
     x = d3
       .scaleBand()
       .domain(<any>d3.range(data.length))
-      .range([defaults.margin.left, defaults.width]);
+      .range([settings.margin.left, settings.width]);
   }
   return x;
 };
 
-export const createYscale = (
+export const createScaleY = (
   data: object[],
-  defaults: IDefaults
+  settings: ISettings
 ): d3.ScaleLinear<number, number, never> => {
   const y = d3
     .scaleLinear()
-    .domain(<any>[0, d3.max(data, (d: IValue) => d.value)])
+    .domain(<any>[0, d3.max(data, (d: IScaleFunc) => d.value)])
     .nice()
-    .range([defaults.height - defaults.margin.bottom, defaults.margin.top]);
+    .range([settings.height - settings.margin.bottom, settings.margin.top]);
 
   return y;
 };

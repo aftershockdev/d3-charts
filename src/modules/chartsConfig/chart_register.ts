@@ -1,6 +1,15 @@
+import {
+  IChartConfiguration,
+  IDataModel,
+  SvgD3Selection,
+} from "../interfaces/charts";
 interface Chart {
-  [index: string]: any;
-  render?: (data: object[] | any, context: any) => void;
+  draw: (
+    nodeElement: SvgD3Selection,
+    chartConfiguration: IChartConfiguration,
+    dataModel: IDataModel,
+    data: object[]
+  ) => void;
 }
 interface Registry {
   [key: string]: Chart;

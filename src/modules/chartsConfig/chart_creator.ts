@@ -1,7 +1,11 @@
 import * as d3 from "d3";
 
-import { IDataModel, IChartConfiguration } from "../interfaces/charts";
-import { createXscale, createYscale } from "./chart_scales";
+import {
+  IDataModel,
+  IChartConfiguration,
+  ISettings,
+} from "../interfaces/charts";
+import { createScaleX, createScaleY } from "./chart_scales";
 import { chartDataConfiguration } from "./chart_data";
 import { getChart } from "./chart_register";
 import "./registration";
@@ -14,13 +18,13 @@ export const ChartCreator = (
   width?: number,
   height?: number
 ): void => {
-  const configuratedData = chartDataConfiguration(
+  const configData = chartDataConfiguration(
     data,
     chartConfiguration,
     dataModel
   );
 
-  const settings = {
+  const settings: ISettings = {
     width: width ? width : 1300,
     height: height ? height : 600,
     margin: {
@@ -38,13 +42,8 @@ export const ChartCreator = (
     .attr("height", settings.height)
     .attr("overflow", "visible");
 
-  const x = createXscale(
-    configuratedData,
-    settings,
-    chartConfiguration,
-    dataModel
-  );
-  const y = createYscale(configuratedData, settings);
+  const x = createScaleX(configData, settings, chartConfiguration, dataModel);
+  const y = createScaleY(configData, settings);
 
   const xAxis = d3.axisBottom(x);
   const yAxis = d3.axisLeft(y);
@@ -70,6 +69,6 @@ export const ChartCreator = (
     svg,
     chartConfiguration,
     dataModel,
-    configuratedData
+    configData
   );
 };

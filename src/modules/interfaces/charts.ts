@@ -19,10 +19,10 @@ export interface IChartConfiguration {
 }
 
 export interface ISettings {
-  width: number
-  height: number
+  width: number;
+  height: number;
   margin: {
-    top: number
+    top: number;
     right: number
     bottom: number
     left: number

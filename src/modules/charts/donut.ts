@@ -1,5 +1,4 @@
-import { SvgD3Selection } from "../interfaces/charts";
-import { IChartConfiguration, IDataModel } from "../interfaces/charts";
+import { SvgD3Selection, IChartConfiguration, IDataModel } from "../interfaces/charts";
 
 export default class Donut {
     public draw(

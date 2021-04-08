@@ -1,8 +1,6 @@
 import * as d3 from "d3";
 
-import { IScaleFunc } from "../interfaces/charts";
-
-import { IChartConfiguration, IDataModel, ISettings, DataTypeEnum } from "../interfaces/charts";
+import { IScaleFunc , IChartConfiguration, IDataModel, ISettings, DataTypeEnum} from "../interfaces/charts";
 
 export const createScaleX = (
     data: any[],

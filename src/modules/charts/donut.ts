@@ -1,13 +1,11 @@
-import { SvgD3Selection, IChartConfiguration, IDataModel } from "../interfaces/charts";
+import { IChartConfiguration, IDataModel, SvgD3Selection, IChart } from "../interfaces/charts";
 
-export default class Donut {
-    public draw(
-        nodeElement: SvgD3Selection,
-        chartConfiguration: IChartConfiguration, // eslint-disable-line
-        dataModel: IDataModel, // eslint-disable-line
-        data: any[] // eslint-disable-line
-    ): void {
-        const message = "здесь будет донатик";
-        nodeElement.append("text").text(message);
-    }
-}
+export const donut: IChart = (
+    nodeElement: SvgD3Selection,
+    chartConfiguration: IChartConfiguration,
+    dataModel: IDataModel,
+    data: any[]
+): void => {
+    const message = "здесь будет донат";
+    nodeElement.append("text").text(message);
+};

@@ -8,14 +8,18 @@ export const chartDataConfiguration = (
     chartConfiguration: IChartConfiguration,
     dataModel: IDataModel
 ): any[] => {
-    let columnType: string;
+    if (dataModel.columns[chartConfiguration.x].columnName !== chartConfiguration.x) {
+        new Error(
+            `${dataModel.columns[chartConfiguration.x].columnName}
+            is not defined in ${chartConfiguration.x}`
+        );
+        return;
+    }
 
-    dataModel.columns[chartConfiguration.x].columnName === chartConfiguration.x
-        ? (columnType = dataModel.columns[chartConfiguration.x].dataType)
-        : new Error(`${dataModel.columns[chartConfiguration.x].columnName}`);
+    const columnType: string = dataModel.columns[chartConfiguration.x].dataType;
 
     if (columnType === DataTypeEnum.date) {
-        const result = data.map((el: IElement) => {
+        return data.map((el: IElement) => {
             if (el[chartConfiguration.x] && el[chartConfiguration.y]) {
                 const d = {
                     date: new Date(el[chartConfiguration.x]),
@@ -24,10 +28,8 @@ export const chartDataConfiguration = (
                 return d;
             }
         });
-
-        return result;
     } else {
-        const result = data.map((el: IElement) => {
+        return data.map((el: IElement) => {
             if (el[chartConfiguration.x] && el[chartConfiguration.y]) {
                 const d = {
                     date: el[chartConfiguration.x],
@@ -36,7 +38,5 @@ export const chartDataConfiguration = (
                 return d;
             }
         });
-
-        return result;
     }
 };

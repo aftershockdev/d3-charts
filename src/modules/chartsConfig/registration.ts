@@ -1,9 +1,9 @@
 import { registerChart } from "./chart_register";
 
-import Bar from "../charts/bar";
-import Line from "../charts/line";
-import Donut from "../charts/donut";
+import { bar } from "../charts/bar";
+import { line } from "../charts/line";
+import { donut } from "../charts/donut";
 
-registerChart("bar", new Bar());
-registerChart("line", new Line());
-registerChart("donut", new Donut());
+registerChart("bar", bar);
+registerChart("line", line);
+registerChart("donut", donut);

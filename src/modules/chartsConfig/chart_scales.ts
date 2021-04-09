@@ -1,19 +1,30 @@
 import * as d3 from "d3";
 
-import { IScaleFunc , IChartConfiguration, IDataModel, ISettings, DataTypeEnum} from "../interfaces/charts";
+import {
+    IScaleFunc,
+    IChartConfiguration,
+    IDataModel,
+    IChartSettings,
+    DataTypeEnum,
+} from "../interfaces/charts";
 
 export const createScaleX = (
     data: any[],
-    settings: ISettings,
+    settings: IChartSettings,
     chartConfiguration: IChartConfiguration,
     dataModel: IDataModel
 ): d3.ScaleTime<number, number, never> | d3.ScaleBand<any> => {
     let x: d3.ScaleBand<any> | d3.ScaleTime<number, number, never>;
-    let columnType: string;
 
-    dataModel.columns[chartConfiguration.x].columnName === chartConfiguration.x
-        ? (columnType = dataModel.columns[chartConfiguration.x].dataType)
-        : new Error(`${dataModel.columns[chartConfiguration.x].columnName}`);
+    if (dataModel.columns[chartConfiguration.x].columnName !== chartConfiguration.x) {
+        new Error(
+            `${dataModel.columns[chartConfiguration.x].columnName}
+            is not defined in ${chartConfiguration.x}`
+        );
+        return;
+    }
+
+    const columnType: string = dataModel.columns[chartConfiguration.x].dataType;
 
     if (columnType === DataTypeEnum.date) {
         x = d3
@@ -36,7 +47,7 @@ export const createScaleX = (
 
 export const createScaleY = (
     data: any[],
-    settings: ISettings
+    settings: IChartSettings
 ): d3.ScaleLinear<number, number, never> => {
     const y = d3
         .scaleLinear()

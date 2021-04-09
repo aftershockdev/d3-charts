@@ -1,12 +1,4 @@
-import { IChartConfiguration, IDataModel, SvgD3Selection } from "../interfaces/charts";
-interface IChart {
-    draw: (
-        nodeElement: SvgD3Selection,
-        chartConfiguration: IChartConfiguration,
-        dataModel: IDataModel,
-        data: any[]
-    ) => void;
-}
+import { IChart } from "../interfaces/charts";
 interface IRegistry {
     [key: string]: IChart;
 }

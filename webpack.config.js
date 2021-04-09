@@ -19,7 +19,12 @@ module.exports = {
             },
         ],
     },
+    devServer: {
+        port: 5500,
+        overlay: true,
+        open: true,
+    },
     resolve: {
-        extensions: [".ts"],
+        extensions: [".wasm", ".ts", ".tsx", ".mjs", ".cjs", ".js", ".json"],
     },
 };

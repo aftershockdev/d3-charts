@@ -30,8 +30,18 @@ export const data_2: any[] = [
     { date: "2014-11-27", value: 231 },
 ];
 
-export const chartConfig_2: IChartConfiguration = {
+export const chartConfigBar_2: IChartConfiguration = {
     type: "bar",
+    x: "date",
+    y: "value",
+};
+export const chartConfigLine_2: IChartConfiguration = {
+    type: "line",
+    x: "date",
+    y: "value",
+};
+export const chartConfigDonut_2: IChartConfiguration = {
+    type: "donut",
     x: "date",
     y: "value",
 };

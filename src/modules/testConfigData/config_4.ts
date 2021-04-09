@@ -16,8 +16,18 @@ export const data_4: any[] = [
     { name: "Josh", efficiency: 41 },
 ];
 
-export const chartConfig_4: IChartConfiguration = {
+export const chartConfigBar_4: IChartConfiguration = {
     type: "bar",
+    x: "name",
+    y: "efficiency",
+};
+export const chartConfigLine_4: IChartConfiguration = {
+    type: "line",
+    x: "name",
+    y: "efficiency",
+};
+export const chartConfigDonut_4: IChartConfiguration = {
+    type: "donut",
     x: "name",
     y: "efficiency",
 };

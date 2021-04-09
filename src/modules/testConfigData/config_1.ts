@@ -1539,8 +1539,18 @@ export const data_1: any[] = [
     },
 ];
 
-export const chartConfig_1: IChartConfiguration = {
+export const chartConfigBar_1: IChartConfiguration = {
+    type: "bar",
+    x: "Date",
+    y: "Cases",
+};
+export const chartConfigLine_1: IChartConfiguration = {
     type: "line",
+    x: "Date",
+    y: "Cases",
+};
+export const chartConfigDonut_1: IChartConfiguration = {
+    type: "donut",
     x: "Date",
     y: "Cases",
 };

@@ -558,8 +558,18 @@ export const data_3: any[] = [
     },
 ];
 
-export const chartConfig_3: IChartConfiguration = {
+export const chartConfigBar_3: IChartConfiguration = {
+    type: "bar",
+    x: "Province",
+    y: "Confirmed",
+};
+export const chartConfigLine_3: IChartConfiguration = {
     type: "line",
+    x: "Province",
+    y: "Confirmed",
+};
+export const chartConfigDonut_3: IChartConfiguration = {
+    type: "donut",
     x: "Province",
     y: "Confirmed",
 };

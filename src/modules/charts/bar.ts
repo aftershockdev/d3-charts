@@ -1,5 +1,4 @@
-import { SvgD3Selection } from "../interfaces/charts";
-import { IChartConfiguration, IDataModel } from "../interfaces/charts";
+import { IChartConfiguration, IDataModel, SvgD3Selection } from "../interfaces/charts";
 
 export default class Bar {
     public draw(

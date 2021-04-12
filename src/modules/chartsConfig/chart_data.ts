@@ -1,42 +1,35 @@
 import { IChartConfiguration, IDataModel, DataTypeEnum } from "../interfaces/charts";
 interface IElement {
-    [key: string]: string | number;
+    [key: string]: any;
 }
 
-export const chartDataConfiguration = (
-    data: any[],
-    chartConfiguration: IChartConfiguration,
-    dataModel: IDataModel
-): any[] => {
-    if (dataModel.columns[chartConfiguration.x].columnName !== chartConfiguration.x) {
-        new Error(
-            `${dataModel.columns[chartConfiguration.x].columnName}
-            is not defined in ${chartConfiguration.x}`
-        );
-        return;
-    }
+export const chartDataConfiguration = (data: any[], chartConfiguration: IChartConfiguration, dataModel: IDataModel): any[] => {
+    const columnTypeX: string = dataModel.columns[chartConfiguration.x].dataType;
 
-    const columnType: string = dataModel.columns[chartConfiguration.x].dataType;
+    if (columnTypeX === DataTypeEnum.date) {
+        return data.map((el: IElement) => {
+            const elementX = el[chartConfiguration.x];
+            const elementY = el[chartConfiguration.y];
 
-    if (columnType === DataTypeEnum.date) {
-        return data.map((el: IElement) => {
-            if (el[chartConfiguration.x] && el[chartConfiguration.y]) {
+            if (elementX && elementY) {
                 const d = {
-                    date: new Date(el[chartConfiguration.x]),
-                    value: el[chartConfiguration.y],
-                };
-                return d;
-            }
-        });
-    } else {
-        return data.map((el: IElement) => {
-            if (el[chartConfiguration.x] && el[chartConfiguration.y]) {
-                const d = {
-                    date: el[chartConfiguration.x],
-                    value: el[chartConfiguration.y],
+                    date: new Date(elementX),
+                    value: elementY,
                 };
                 return d;
             }
         });
     }
+    return data.map((el: IElement) => {
+        const elementX = el[chartConfiguration.x];
+        const elementY = el[chartConfiguration.y];
+
+        if (elementX && elementY) {
+            const d = {
+                date: elementX,
+                value: elementY,
+            };
+            return d;
+        }
+    });
 };

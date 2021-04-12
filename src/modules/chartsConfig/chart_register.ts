@@ -5,8 +5,7 @@ interface IRegistry {
 
 const registry: IRegistry = {};
 
-export const registerChart = (type: string, chart: IChart) => {
-    return (registry[type] = chart);
-};
+export const registerChart = (type: string, chart: IChart) =>
+    (registry[type] = chart);
 
 export const getChart = (type: string) => registry[type];

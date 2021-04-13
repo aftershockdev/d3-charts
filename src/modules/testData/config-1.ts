@@ -1544,11 +1544,13 @@ export const chartConfigBar_1: IChartConfiguration = {
     x: "Date",
     y: "Cases",
 };
+
 export const chartConfigLine_1: IChartConfiguration = {
     type: "line",
     x: "Date",
     y: "Cases",
 };
+
 export const chartConfigDonut_1: IChartConfiguration = {
     type: "donut",
     x: "Date",
@@ -1568,4 +1570,9 @@ export const dataModel_1: IDataModel = {
             dataType: DataTypeEnum.number,
         },
     },
+};
+
+export default {
+    data: data_1,
+
 };

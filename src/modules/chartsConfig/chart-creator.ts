@@ -1,45 +1,45 @@
 import * as d3 from "d3";
 
-import { IDataModel, IChartConfiguration, IChartSettings } from "../interfaces/charts";
+import { IDataModel, IChartConfiguration, ISizeSettings } from "../interfaces/charts";
 import { createScaleX, createScaleY } from "./chart-scales";
 import { chartDataConfiguration } from "./chart-data";
 import { getChart } from "./chart-register";
 
 export const showChart = (
-    node: HTMLElement,
+    node: Element,
     data: any[],
-    chartConfiguration: IChartConfiguration,
+    config: IChartConfiguration,
     dataModel: IDataModel,
-    settings: IChartSettings
+    settings: ISizeSettings
 ): void => {
     const nodeElement = d3.select(node);
     if (!nodeElement)
         throw new Error("Node element is not defined.");
 
-    const chart = getChart(chartConfiguration.type);
+    const chart = getChart(config.type);
     if (!chart)
-        throw new Error(`Type: ${chartConfiguration.type} is not supported`);
+        throw new Error(`Type: ${config.type} is not supported`);
 
-    const xCol  = chartConfiguration.x;
-    const yCol  = chartConfiguration.y;
+    const xCol  = config.x;
+    const yCol  = config.y;
 
     const xColName = dataModel.columns[xCol].columnName;
-    if (xColName !== chartConfiguration.x)
+    if (xColName !== config.x)
         throw new Error(`${xColName} is not defined in ${xCol}`);
 
     const yColName = dataModel.columns[yCol].columnName;
-    if (yColName !== chartConfiguration.y)
+    if (yColName !== config.y)
         throw new Error(`${yColName} is not defined in ${yCol}`);
 
-    const configData = chartDataConfiguration(data, chartConfiguration, dataModel);
+    const configData = chartDataConfiguration(data, config, dataModel);
 
     const svg = nodeElement.append("svg")
         .attr("width", settings.width)
         .attr("height", settings.height)
         .attr("overflow", "visible");
 
-    const x = createScaleX(configData, settings, chartConfiguration, dataModel);
-    const y = createScaleY(configData, settings, chartConfiguration, dataModel);
+    const x = createScaleX(configData, settings, config, dataModel);
+    const y = createScaleY(configData, settings, config, dataModel);
 
     const xAxis = d3.axisBottom(x);
     const yAxis = d3.axisLeft(y);
@@ -60,5 +60,5 @@ export const showChart = (
         .attr("transform", `translate(${settings.margin.left},0)`)
         .call(yAxis);
 
-    chart(svg, chartConfiguration, dataModel, configData);
+    chart(svg, config, dataModel, configData);
 };

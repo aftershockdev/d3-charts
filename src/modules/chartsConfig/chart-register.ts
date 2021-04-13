@@ -1,11 +1,11 @@
-import { IChart } from "../interfaces/charts";
+import { ChartVisualizer } from "../interfaces/charts";
 interface IRegistry {
-    [key: string]: IChart;
+    [key: string]: ChartVisualizer;
 }
 
 const registry: IRegistry = {};
 
-export const registerChart = (type: string, chart: IChart) =>
+export const registerChart = (type: string, chart: ChartVisualizer) =>
     (registry[type] = chart);
 
 export const getChart = (type: string) => registry[type];

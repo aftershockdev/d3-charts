@@ -1,14 +1,14 @@
 import { showChart } from "./chartsConfig/chart-creator";
-import { IChartSettings } from "./interfaces/charts";
+import { ISizeSettings } from "./interfaces/charts";
 import "./charts/registration";
 
-import { data_1, chartConfigBar_1, chartConfigLine_1, chartConfigDonut_1, dataModel_1 } from "./testConfigData/config-1";
-import { data_2, chartConfigBar_2, chartConfigLine_2, chartConfigDonut_2, dataModel_2 } from "./testConfigData/config-2";
-import { data_3, chartConfigBar_3, chartConfigLine_3, chartConfigDonut_3, dataModel_3 } from "./testConfigData/config-3";
-import { data_4, chartConfigBar_4, chartConfigLine_4, chartConfigDonut_4, dataModel_4 } from "./testConfigData/config-4";
+import { data_1, chartConfigBar_1, chartConfigLine_1, chartConfigDonut_1, dataModel_1 } from "./testData/config-1";
+import { data_2, chartConfigBar_2, chartConfigLine_2, chartConfigDonut_2, dataModel_2 } from "./testData/config-2";
+import { data_3, chartConfigBar_3, chartConfigLine_3, chartConfigDonut_3, dataModel_3 } from "./testData/config-3";
+import { data_4, chartConfigBar_4, chartConfigLine_4, chartConfigDonut_4, dataModel_4 } from "./testData/config-4";
 
 // Chart Settings
-const chartSettings: IChartSettings = {
+const chartSettings: ISizeSettings = {
     width: 400,
     height: 400,
     margin: {
@@ -19,9 +19,9 @@ const chartSettings: IChartSettings = {
     },
 };
 // DOM Elements
-const main_one: HTMLElement = document.querySelector(".chart.main_one");
-const main_two: HTMLElement = document.querySelector(".chart.main_two");
-const main_three: HTMLElement = document.querySelector(".chart.main_three");
+const main_one = document.querySelector(".chart.main_one");
+const main_two = document.querySelector(".chart.main_two");
+const main_three = document.querySelector(".chart.main_three");
 
 // Bars
 showChart(main_one, data_1, chartConfigBar_1, dataModel_1, chartSettings);

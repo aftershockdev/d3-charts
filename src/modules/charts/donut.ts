@@ -1,11 +1,8 @@
-import { IChartConfiguration, IDataModel, SvgD3Selection, IChart } from "../interfaces/charts";
+import { ChartVisualizer } from "../interfaces/charts";
 
-export const donut: IChart = (
-    nodeElement: SvgD3Selection,
-    chartConfiguration: IChartConfiguration,
-    dataModel: IDataModel,
-    data: any[]
-): void => {
+const drawDonut: ChartVisualizer = (node, config, model, data): void => {
     const message = "здесь будет донат";
-    nodeElement.append("text").text(message);
+    node.append("text").text(message);
 };
+
+export default drawDonut;

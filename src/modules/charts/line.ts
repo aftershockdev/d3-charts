@@ -1,11 +1,8 @@
-import { IChartConfiguration, IDataModel, SvgD3Selection, IChart } from "../interfaces/charts";
+import { ChartVisualizer } from "../interfaces/charts";
 
-export const line: IChart = (
-    nodeElement: SvgD3Selection,
-    chartConfiguration: IChartConfiguration,
-    dataModel: IDataModel,
-    data: any[]
-): void => {
+const drawLines: ChartVisualizer = (node, config, model, data): void => {
     const message = "здесь будет линейный график";
-    nodeElement.append("text").text(message);
+    node.append("text").text(message);
 };
+
+export default drawLines;

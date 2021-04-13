@@ -1,6 +1,6 @@
 import { IChartConfiguration, IDataModel, DataTypeEnum } from "../interfaces/charts";
 
-export const data_1: any[] = [
+export const data_1 = [
     {
         Country: "South Africa",
         CountryCode: "",

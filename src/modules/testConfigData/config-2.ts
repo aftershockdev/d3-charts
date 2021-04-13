@@ -1,6 +1,6 @@
 import { IChartConfiguration, IDataModel, DataTypeEnum } from "../interfaces/charts";
 
-export const data_2: any[] = [
+export const data_2 = [
     { date: "2014-11-01", value: 12 },
     { date: "2014-11-02", value: 14 },
     { date: "2014-11-03", value: 151 },

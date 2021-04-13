@@ -1,6 +1,6 @@
 import { IChartConfiguration, IDataModel, DataTypeEnum } from "../interfaces/charts";
 
-export const data_3: any[] = [
+export const data_3 = [
     {
         ID: "c121588d-f5b2-465e-9b70-076ee51d70fc",
         Country: "Ukraine",
@@ -563,11 +563,13 @@ export const chartConfigBar_3: IChartConfiguration = {
     x: "Province",
     y: "Confirmed",
 };
+
 export const chartConfigLine_3: IChartConfiguration = {
     type: "line",
     x: "Province",
     y: "Confirmed",
 };
+
 export const chartConfigDonut_3: IChartConfiguration = {
     type: "donut",
     x: "Province",

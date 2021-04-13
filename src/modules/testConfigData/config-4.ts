@@ -1,6 +1,6 @@
 import { IChartConfiguration, IDataModel, DataTypeEnum } from "../interfaces/charts";
 
-export const data_4: any[] = [
+export const data_4 = [
     { name: "Ruslan", efficiency: 35 },
     { name: "Anton", efficiency: 45 },
     { name: "Ihor", efficiency: 55 },

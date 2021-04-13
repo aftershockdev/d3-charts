@@ -1,16 +1,8 @@
-import * as d3 from "d3";
+import { ChartVisualizer } from "../interfaces/charts";
 
-import { SvgD3Selection } from "../interfaces/charts";
-import { IChartConfiguration, IDataModel } from "../interfaces/charts";
+const drawDonut: ChartVisualizer = (node, config, model, data): void => {
+    const message = "здесь будет донат";
+    node.append("text").text(message);
+};
 
-export default class Donut {
-  public draw(
-    nodeElement: SvgD3Selection,
-    chartConfiguration: IChartConfiguration,
-    dataModel: IDataModel,
-    data: object[]
-  ): void {
-    const message = "здесь будет донатик";
-    nodeElement.append("text").text(message);
-  }
-}
+export default drawDonut;

@@ -1,16 +1,8 @@
-import * as d3 from "d3";
+import { ChartVisualizer } from "../interfaces/charts";
 
-import { SvgD3Selection } from "../interfaces/charts";
-import { IChartConfiguration, IDataModel } from "../interfaces/charts";
-
-export default class Bar {
-  public draw(
-    nodeElement: SvgD3Selection,
-    chartConfiguration: IChartConfiguration,
-    dataModel: IDataModel,
-    data: object[]
-  ): void {
+const drawBars: ChartVisualizer = (node, config, model, data): void => {
     const message = "здесь будет бар чарт";
-    nodeElement.append("text").text(message);
-  }
-}
+    node.append("text").text(message);
+};
+
+export default drawBars;

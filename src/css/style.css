@@ -4,13 +4,21 @@
   margin: 0;
 }
 
-
-
-
 .wrapper {
   margin: 150px 0px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
+}
+
+.chart {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart svg {
+    margin-bottom: 100px;
 }

@@ -59,6 +59,7 @@
         "no-param-reassign": 0,
         "no-plusplus": [1, { "allowForLoopAfterthoughts": true }],
         "no-prototype-builtins": 0,
+        "no-duplicate-imports": "error",
         "no-restricted-syntax": [1, "WithStatement"],
         "no-underscore-dangle": 0,
         "no-unused-vars": 1,

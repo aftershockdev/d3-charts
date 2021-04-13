@@ -4,12 +4,14 @@ interface IElement {
 }
 
 export const chartDataConfiguration = (data: any[], chartConfiguration: IChartConfiguration, dataModel: IDataModel): any[] => {
-    const columnTypeX: string = dataModel.columns[chartConfiguration.x].dataType;
+    const xCol  = chartConfiguration.x;
+    const yCol  = chartConfiguration.y;
+    const columnTypeX: string = dataModel.columns[xCol].dataType;
 
     if (columnTypeX === DataTypeEnum.date) {
         return data.map((el: IElement) => {
-            const elementX = el[chartConfiguration.x];
-            const elementY = el[chartConfiguration.y];
+            const elementX = el[xCol];
+            const elementY = el[yCol];
 
             if (elementX && elementY) {
                 const d = {
@@ -21,8 +23,8 @@ export const chartDataConfiguration = (data: any[], chartConfiguration: IChartCo
         });
     }
     return data.map((el: IElement) => {
-        const elementX = el[chartConfiguration.x];
-        const elementY = el[chartConfiguration.y];
+        const elementX = el[xCol];
+        const elementY = el[yCol];
 
         if (elementX && elementY) {
             const d = {

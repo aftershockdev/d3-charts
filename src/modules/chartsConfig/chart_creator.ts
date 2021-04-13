@@ -14,15 +14,24 @@ export const ChartCreator = (
     settings: IChartSettings
 ): void => {
     const nodeElement = d3.select(node);
+    const chart = getChart(chartConfiguration.type);
+    const xCol  = chartConfiguration.x;
+    const yCol  = chartConfiguration.y;
 
-    if (!nodeElement) throw new Error("Node element is not defined.");
+    const xColName = dataModel.columns[xCol].columnName;
+    const yColName = dataModel.columns[yCol].columnName;
 
-    const columnNameX = dataModel.columns[chartConfiguration.x].columnName;
-    const columnNameY = dataModel.columns[chartConfiguration.y].columnName;
+    if (!nodeElement)
+        throw new Error("Node element is not defined.");
 
-    if (columnNameX !== chartConfiguration.x) throw new Error(`${columnNameX} is not defined in ${chartConfiguration.x}`);
+    if (!chart)
+        throw new Error(`Type: ${chartConfiguration.type} is not supported`);
 
-    if (columnNameY !== chartConfiguration.y) throw new Error(`${columnNameY}is not defined in ${chartConfiguration.y}`);
+    if (xColName !== chartConfiguration.x)
+        throw new Error(`${xColName} is not defined in ${xCol}`);
+
+    if (yColName !== chartConfiguration.y)
+        throw new Error(`${yColName} is not defined in ${yCol}`);
 
     const configData = chartDataConfiguration(data, chartConfiguration, dataModel);
 
@@ -42,11 +51,11 @@ export const ChartCreator = (
         .attr("transform", `translate(0,${settings.height - settings.margin.bottom})`)
         .call(xAxis);
 
-    nodeAxis.append("g").attr("class", "y-axis").attr("transform", `translate(${settings.margin.left},0)`).call(yAxis);
-
-    const chart = getChart(chartConfiguration.type);
-
-    if (!chart) throw new Error(`Type: ${chartConfiguration.type} is not supported`);
+    nodeAxis
+        .append("g")
+        .attr("class", "y-axis")
+        .attr("transform", `translate(${settings.margin.left},0)`)
+        .call(yAxis);
 
     chart(svg, chartConfiguration, dataModel, configData);
 };

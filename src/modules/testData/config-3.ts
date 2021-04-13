@@ -566,8 +566,8 @@ export const chartConfigBar_3: IChartConfiguration = {
 
 export const chartConfigLine_3: IChartConfiguration = {
     type: "line",
-    x: "Province",
-    y: "Confirmed",
+    x: "Confirmed",
+    y: "Province",
 };
 
 export const chartConfigDonut_3: IChartConfiguration = {

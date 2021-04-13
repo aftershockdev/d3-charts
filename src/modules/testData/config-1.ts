@@ -1547,8 +1547,8 @@ export const chartConfigBar_1: IChartConfiguration = {
 
 export const chartConfigLine_1: IChartConfiguration = {
     type: "line",
-    x: "Date",
-    y: "Cases",
+    y: "Date",
+    x: "Cases",
 };
 
 export const chartConfigDonut_1: IChartConfiguration = {

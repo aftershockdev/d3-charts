@@ -10,7 +10,7 @@ export const showChart = (
     data: any[],
     config: IChartConfiguration,
     dataModel: IDataModel,
-    settings: ISizeSettings
+    size: ISizeSettings
 ): void => {
     const nodeElement = d3.select(node);
     if (!nodeElement)
@@ -34,12 +34,12 @@ export const showChart = (
     const configData = chartDataConfiguration(data, config, dataModel);
 
     const svg = nodeElement.append("svg")
-        .attr("width", settings.width)
-        .attr("height", settings.height)
+        .attr("width", size.width)
+        .attr("height", size.height)
         .attr("overflow", "visible");
 
-    const x = createScaleX(configData, settings, config, dataModel);
-    const y = createScaleY(configData, settings, config, dataModel);
+    const x = createScaleX(configData, size, config, dataModel);
+    const y = createScaleY(configData, size, config, dataModel);
 
     const xAxis = d3.axisBottom(x);
     const yAxis = d3.axisLeft(y);
@@ -51,14 +51,14 @@ export const showChart = (
     nodeAxis
         .append("g")
         .attr("class", "x-axis")
-        .attr("transform", `translate(0,${settings.height - settings.margin.bottom})`)
+        .attr("transform", `translate(0,${size.height - size.margin.bottom})`)
         .call(xAxis);
 
     nodeAxis
         .append("g")
         .attr("class", "y-axis")
-        .attr("transform", `translate(${settings.margin.left},0)`)
+        .attr("transform", `translate(${size.margin.left}, 0)`)
         .call(yAxis);
 
-    chart(svg, config, dataModel, configData);
+    chart(svg, config, dataModel, configData, size);
 };

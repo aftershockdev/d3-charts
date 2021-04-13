@@ -23,8 +23,8 @@ export const chartConfigBar_4: IChartConfiguration = {
 };
 export const chartConfigLine_4: IChartConfiguration = {
     type: "line",
-    x: "name",
-    y: "efficiency",
+    x: "efficiency",
+    y: "name",
 };
 export const chartConfigDonut_4: IChartConfiguration = {
     type: "donut",

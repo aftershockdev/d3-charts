@@ -37,8 +37,8 @@ export const chartConfigBar_2: IChartConfiguration = {
 };
 export const chartConfigLine_2: IChartConfiguration = {
     type: "line",
-    x: "date",
-    y: "value",
+    x: "value",
+    y: "date",
 };
 export const chartConfigDonut_2: IChartConfiguration = {
     type: "donut",

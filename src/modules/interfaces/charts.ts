@@ -24,10 +24,6 @@ export interface IChartConfiguration {
     y: string;
 }
 
-export type SvgD3Selection = Selection<SVGElement, any, Element, any>;
-
-export type ChartVisualizer = <T = any>( node: SvgD3Selection, config: IChartConfiguration, dataModel: IDataModel, data: T[] ) => void;
-
 export interface ISizeSettings {
     width: number;
     height: number;
@@ -38,3 +34,16 @@ export interface ISizeSettings {
         left: number;
     };
 }
+
+export type SvgD3Selection = Selection<SVGElement, any, Element, any>;
+
+export type ChartVisualizer = <T = any>
+(
+    node: SvgD3Selection,
+    config: IChartConfiguration,
+    dataModel: IDataModel,
+    data: T[],
+    size: ISizeSettings
+) => void;
+
+

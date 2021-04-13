@@ -4,9 +4,6 @@
   margin: 0;
 }
 
-
-
-
 .wrapper {
   margin: 150px 0px;
   display: flex;
@@ -17,10 +14,10 @@
 
 .chart {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
 }
-
 
 .chart svg {
     margin-bottom: 100px;

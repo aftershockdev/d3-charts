@@ -9,6 +9,10 @@ export interface IScaleFunc {
 
 type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any> ;
 
+
+const getDateAtt = (d: IScaleFunc) => d.date;
+const getValueAtt = (d: IScaleFunc) => d.value;
+
 export const createScaleX = (
     data: any[],
     size: ISizeSettings,
@@ -21,17 +25,17 @@ export const createScaleX = (
         case DataTypeEnum.date:
             return d3
                 .scaleTime()
-                .domain(<any>d3.extent(data, (d: IScaleFunc) => d.date))
+                .domain(<any>d3.extent(data,getDateAtt))
                 .range([size.margin.left, size.width]);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
-                .domain(<any>data.map((d: IScaleFunc) => d.date))
+                .domain(data.map(getDateAtt))
                 .range([size.margin.left, size.width]);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
-                .domain(<any>[0, d3.max(data, (d: IScaleFunc) => d.value)])
+                .domain([0, d3.max(data, getValueAtt)])
                 .nice()
                 .range([size.height - size.margin.bottom, size.margin.top]);
         default:
@@ -54,17 +58,17 @@ export const createScaleY = (
         case DataTypeEnum.date:
             return d3
                 .scaleTime()
-                .domain(<any>d3.extent(data, (d: IScaleFunc) => d.date))
+                .domain(<any>d3.extent(data, getDateAtt))
                 .range([size.margin.left, size.width]);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
-                .domain(<any>data.map((d: IScaleFunc) => d.date))
+                .domain(data.map(getDateAtt))
                 .range([size.margin.left, size.width]);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
-                .domain(<any>[0, d3.max(data, (d: IScaleFunc) => d.value)])
+                .domain([0, d3.max(data, getValueAtt)])
                 .nice()
                 .range([size.height - size.margin.bottom, size.margin.top]);
         default:

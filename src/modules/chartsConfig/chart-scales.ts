@@ -37,7 +37,7 @@ export const createScaleX = (
                 .scaleLinear()
                 .domain([d3.max(data, getAttX), 0])
                 .nice()
-                .range([size.height - size.margin.bottom, size.margin.top]);
+                .range([size.margin.left, size.width]);
         default:
             return d3
                 .scaleBand()
@@ -60,12 +60,12 @@ export const createScaleY = (
             return d3
                 .scaleTime()
                 .domain(<any>d3.extent(data, getAttY))
-                .range([size.margin.left, size.width]);
+                .range([size.height - size.margin.bottom, size.margin.top]);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
                 .domain(data.map(getAttY))
-                .range([size.margin.left, size.width]);
+                .range([size.height - size.margin.bottom, size.margin.top]);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
@@ -76,6 +76,6 @@ export const createScaleY = (
             return d3
                 .scaleBand()
                 .domain(<any>d3.range(data.length))
-                .range([size.margin.left, size.width]);
+                .range([size.height - size.margin.bottom, size.margin.top]);
     }
 };

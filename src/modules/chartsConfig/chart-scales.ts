@@ -35,7 +35,7 @@ export const createScaleX = (
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
-                .domain([d3.max(data, getAttX), 0])
+                .domain([0, d3.max(data, getAttX)])
                 .nice()
                 .range([size.margin.left, size.width]);
         default:

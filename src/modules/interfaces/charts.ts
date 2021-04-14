@@ -9,6 +9,11 @@ export enum DataTypeEnum {
     number = "number",
     date = "date",
 }
+export enum ChartTypesEnum {
+    bar = "bar",
+    line = "line",
+    donut = "donut"
+}
 
 export interface IColumnModel {
     columnName: string;
@@ -18,10 +23,32 @@ export interface IColumnModel {
     formatString?: string;
 }
 
+export interface IBarOptions {
+    fill?: string;
+    horizontal?: boolean;
+}
+
+export interface ILineOptions {
+    fill?: string;
+    horizontal?: boolean;
+}
+export interface IDonutOptions {
+    fill?: string;
+    horizontal?: boolean;
+}
+
+
+export interface IChartOptions {
+    bar?: IBarOptions
+    line?: ILineOptions
+    donut?: IDonutOptions
+}
+
 export interface IChartConfiguration {
     type: string;
     x: string;
     y: string;
+    options?: IChartOptions
 }
 
 export interface ISizeSettings {

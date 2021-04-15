@@ -1543,12 +1543,6 @@ export const chartConfigBar_1: IChartConfiguration = {
     type: "bar",
     x: "Date",
     y: "Cases",
-    options: {
-        bar: {
-            fill: "#69b3a2",
-            horizontal: true,
-        }
-    }
 };
 
 export const chartConfigLine_1: IChartConfiguration = {

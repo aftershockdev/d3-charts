@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { IDataModel, IChartConfiguration, ISizeSettings, ChartTypesEnum } from "../interfaces/charts";
+import { IDataModel, IChartConfiguration, ISizeSettings } from "../interfaces/charts";
 import { createScaleX, createScaleY } from "./chart-scales";
 import { chartDataConfiguration } from "./chart-data";
 import { getChart } from "./chart-register";

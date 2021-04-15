@@ -1,9 +1,9 @@
 import { ChartVisualizer } from "../interfaces/charts";
-import { options } from "../chartsConfig/default-options"
 
 
 const drawLines: ChartVisualizer = (node, config, model, data): void => {
-    const {fill, horizontal} = options(config)
+    const message = "line chart will created here";
+    node.append("text").text(message);
 };
 
 export default drawLines;

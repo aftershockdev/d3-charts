@@ -9,9 +9,25 @@ interface IValue {
 }
 
 export const chartDataConfiguration = (data: IElement[], chartConfiguration: IChartConfiguration, dataModel: IDataModel): IValue[] => {
+    const numData: any[] = [];
+    const columnsVal: number[] = [];
+    let colWithMaxVal: any[];
     const { columns } = dataModel;
     const xCol  = chartConfiguration.x;
     const yCol  = chartConfiguration.y;
+
+    for(const col in columns){
+        if(columns[col].dataType === DataTypeEnum.number){
+            numData.push([col, ...data.map(el => el[col] ? el[col] : null)]);
+        }
+    }
+
+    // Find array with maximum values
+    for(const col of numData){
+        const numCol =  col.slice(1);
+        columnsVal.push(...numCol);
+        col.includes(Math.max(...columnsVal)) ? colWithMaxVal = col: null;
+    }
 
     const columnTypeX = columns[xCol].dataType;
     const columnTypeY = columns[yCol].dataType;
@@ -24,6 +40,7 @@ export const chartDataConfiguration = (data: IElement[], chartConfiguration: ICh
             return  x && y ? {x: new Date(x), y} : null;
         });
     }
+
     if (columnTypeY === DataTypeEnum.date) {
         return data.map(el => {
             const x = el[xCol];
@@ -39,6 +56,4 @@ export const chartDataConfiguration = (data: IElement[], chartConfiguration: ICh
 
         return  x && y ? {x, y} : null;
     });
-
-
 };

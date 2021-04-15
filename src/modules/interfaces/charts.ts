@@ -35,6 +35,9 @@ export interface ISizeSettings {
         left: number;
     };
 }
+export interface IElement {
+  [key: string]: any;
+}
 
 export type SvgD3Selection = Selection<SVGElement, any, Element, any>;
 

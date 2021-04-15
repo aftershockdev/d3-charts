@@ -20,29 +20,30 @@ export const createScaleX = (
     model: IDataModel
 ): ScaleResult => {
     const columnTypeX = model.columns[config.x].dataType;
+    const rangeX = [size.margin.left, size.width];
 
     switch (columnTypeX) {
         case DataTypeEnum.date:
             return d3
                 .scaleTime()
                 .domain(<any>d3.extent(data,getAttX))
-                .range([size.margin.left, size.width]);
+                .range(rangeX);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
                 .domain(data.map(getAttX))
-                .range([size.margin.left, size.width]);
+                .range(rangeX);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
                 .domain([0, d3.max(data, getAttX)])
                 .nice()
-                .range([size.margin.left, size.width]);
+                .range(rangeX);
         default:
             return d3
                 .scaleBand()
                 .domain(<any>d3.range(data.length))
-                .range([size.margin.left, size.width]);
+                .range(rangeX);
     }
 };
 
@@ -53,6 +54,7 @@ export const createScaleY = (
     model: IDataModel
 ): ScaleResult => {
     const columnTypeY = model.columns[config.y].dataType;
+    const rangeY = [size.height - size.margin.bottom, size.margin.top];
 
 
     switch (columnTypeY) {
@@ -60,22 +62,22 @@ export const createScaleY = (
             return d3
                 .scaleTime()
                 .domain(<any>d3.extent(data, getAttY))
-                .range([size.height - size.margin.bottom, size.margin.top]);
+                .range(rangeY);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
                 .domain(data.map(getAttY))
-                .range([size.height - size.margin.bottom, size.margin.top]);
+                .range(rangeY);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
                 .domain([0, d3.max(data, getAttY)])
                 .nice()
-                .range([size.height - size.margin.bottom, size.margin.top]);
+                .range(rangeY);
         default:
             return d3
                 .scaleBand()
                 .domain(<any>d3.range(data.length))
-                .range([size.height - size.margin.bottom, size.margin.top]);
+                .range(rangeY);
     }
 };

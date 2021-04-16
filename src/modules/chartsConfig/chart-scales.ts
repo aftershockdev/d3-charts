@@ -3,15 +3,10 @@ import * as d3 from "d3";
 import { IChartConfiguration, IDataModel, ISizeSettings, DataTypeEnum } from "../interfaces/charts";
 
 export interface IScaleFunc {
-    x: any;
-    y: any;
+  [key: string]: any;
 }
 
 type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any> ;
-
-
-const getAttX = (d: IScaleFunc) => d.x;
-const getAttY = (d: IScaleFunc) => d.y;
 
 export const createScaleX = (
     data: any[],
@@ -19,8 +14,28 @@ export const createScaleX = (
     config: IChartConfiguration,
     model: IDataModel
 ): ScaleResult => {
-    const columnTypeX = model.columns[config.x].dataType;
+    const { columns } = model;
     const rangeX = [size.margin.left, size.width];
+    const x = config.x;
+    let col: any;
+
+    for(const key in x){
+        const colName = x[key];
+        const colType = columns[colName].dataType;
+        const colWithMaxValue = data.reduce((prev, current) => (prev.x[colName] > current.x[colName]) ? prev : current);
+        const colValue = { n: colWithMaxValue.x[colName], v: colName };
+
+        if (colType === DataTypeEnum.number) {
+            col = !col ? colValue :
+                colValue.n > col.n ?
+                    colValue : col;
+        } else {
+            col = colValue;
+        }
+    }
+
+    const getAttX = (d: IScaleFunc) => d.x[col.v] ? d.x[col.v] : d.x;
+    const columnTypeX = columns[col.v].dataType;
 
     switch (columnTypeX) {
         case DataTypeEnum.date:
@@ -53,9 +68,31 @@ export const createScaleY = (
     config: IChartConfiguration,
     model: IDataModel
 ): ScaleResult => {
-    const columnTypeY = model.columns[config.y].dataType;
+    const { columns } = model;
     const rangeY = [size.height - size.margin.bottom, size.margin.top];
+    const y = config.y;
+    let col: any;
 
+    for (const key in y) {
+        const colName = y[key];
+        const colType = columns[colName].dataType;
+        const colWithMaxValue = data.reduce((prev, current) => (prev.y[colName] > current.y[colName]) ? prev : current);
+        const colValue = {
+            n: colWithMaxValue.y[colName],
+            v: colName
+        };
+
+        if (colType === DataTypeEnum.number) {
+            col = !col ? colValue :
+                colValue.n > col.n ?
+                    colValue : col;
+        } else {
+            col = colValue;
+        }
+    }
+
+    const getAttY = (d: IScaleFunc) => d.y[col.v] ? d.y[col.v] : d.y;
+    const columnTypeY = columns[col.v].dataType;
 
     switch (columnTypeY) {
         case DataTypeEnum.date:

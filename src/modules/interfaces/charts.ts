@@ -21,8 +21,8 @@ export interface IColumnModel {
 
 export interface IChartConfiguration {
     type: string;
-    x: string;
-    y: string;
+    x: string[];
+    y: string[];
 }
 
 export interface ISizeSettings {

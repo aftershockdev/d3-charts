@@ -12,6 +12,7 @@ export const showChart = (
     dataModel: IDataModel,
     size: ISizeSettings
 ): void => {
+
     const nodeElement = d3.select(node);
     if (!nodeElement)
         throw new Error("Node element is not defined.");
@@ -19,17 +20,6 @@ export const showChart = (
     const chart = getChart(config.type);
     if (!chart)
         throw new Error(`Type: ${config.type} is not supported`);
-
-    const xCol  = config.x;
-    const yCol  = config.y;
-
-    const xColName = dataModel.columns[xCol].columnName;
-    if (xColName !== config.x)
-        throw new Error(`${xColName} is not defined in ${xCol}`);
-
-    const yColName = dataModel.columns[yCol].columnName;
-    if (yColName !== config.y)
-        throw new Error(`${yColName} is not defined in ${yCol}`);
 
     const configData = chartDataConfiguration(data, config, dataModel);
 
@@ -52,13 +42,19 @@ export const showChart = (
         .append("g")
         .attr("class", "x-axis")
         .attr("transform", `translate(0,${size.height - size.margin.bottom})`)
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("transform", "rotate(70)")
+        .style("text-anchor", "start");
 
     nodeAxis
         .append("g")
         .attr("class", "y-axis")
         .attr("transform", `translate(${size.margin.left}, 0)`)
         .call(yAxis);
+
 
     chart(svg, config, dataModel, configData, size);
 };

@@ -1541,20 +1541,20 @@ export const data_1 = [
 
 export const chartConfigBar_1: IChartConfiguration = {
     type: "bar",
-    x: "Date",
-    y: "Cases",
+    x: ["Date"],
+    y: ["Cases"],
 };
 
 export const chartConfigLine_1: IChartConfiguration = {
     type: "line",
-    y: "Date",
-    x: "Cases",
+    y: ["Date"],
+    x: ["Cases"],
 };
 
 export const chartConfigDonut_1: IChartConfiguration = {
     type: "donut",
-    x: "Date",
-    y: "Cases",
+    x: ["Date"],
+    y: ["Cases"],
 };
 
 export const dataModel_1: IDataModel = {

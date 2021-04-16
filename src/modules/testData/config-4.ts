@@ -18,18 +18,18 @@ export const data_4 = [
 
 export const chartConfigBar_4: IChartConfiguration = {
     type: "bar",
-    x: "name",
-    y: "efficiency",
+    x: ["name"],
+    y: ["efficiency"],
 };
 export const chartConfigLine_4: IChartConfiguration = {
     type: "line",
-    x: "efficiency",
-    y: "name",
+    x: ["efficiency"],
+    y: ["name"],
 };
 export const chartConfigDonut_4: IChartConfiguration = {
     type: "donut",
-    x: "name",
-    y: "efficiency",
+    x: ["name"],
+    y: ["efficiency"],
 };
 
 export const dataModel_4: IDataModel = {

@@ -17,10 +17,32 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
     const xLength = config.x.length;
     const yLength = config.y.length;
 
+    const allColumnsName: string[] = [...xCol, ...yCol];
+    const numberColumns: string[] = [];
+
     const columnTypeX = columns[xCol[0]].dataType;
     const columnTypeY = columns[yCol[0]].dataType;
 
-    return data.map(el => {
+    if (xLength > 1 && yLength > 1)
+        throw new Error("One of the axes must be with one column");
+
+    for(const key of allColumnsName){
+        columns[key].dataType === DataTypeEnum.number ? numberColumns.push(key) : null;
+    }
+
+    if(!numberColumns.length)
+        throw new Error("One of the columns must be of type number");
+
+    const filteredData = data.filter(el => {
+        for (const k in allColumnsName) {
+            if (!el[allColumnsName[k]]) {
+                return;
+            }
+        }
+        return el;
+    });
+
+    return filteredData.map(el => {
         if (yLength > 1) {
             const y = {};
             let x: any;
@@ -43,7 +65,7 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
                     });
                 }
             }
-            return { x, y };
+            return x && y ?  { x, y } : null;
         }
         if (xLength > 1) {
             const x = {};
@@ -67,7 +89,7 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
                     });
                 }
             }
-            return { x, y };
+            return x && y ?  { x, y } : null;
         }
 
         const x = el[xCol[0]];

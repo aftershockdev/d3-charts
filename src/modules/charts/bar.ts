@@ -13,8 +13,8 @@ const drawBars: ChartVisualizer = (node, config, model, data, size): void => {
     const yCol = config.y;
     const xCol = config.x;
 
-    const xLength = config.x.length;
-    const yLength = config.y.length;
+    const xLength = xCol.length;
+    const yLength = yCol.length;
 
     if (yLength > 1) {
         for (const i in yCol) {

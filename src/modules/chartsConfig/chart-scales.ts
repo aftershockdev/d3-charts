@@ -1,120 +1,65 @@
 import * as d3 from "d3";
-
-import { IChartConfiguration, IDataModel, ISizeSettings, DataTypeEnum } from "../interfaces/charts";
+import { IDataModel,  DataTypeEnum, axisTypeEnum, ScaleCreator, ScaleResult } from "../interfaces/charts";
 
 export interface IScaleFunc {
   [key: string]: any;
 }
 
-type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any> ;
+interface columnWithMaxValue  {
+  num: number,
+  name: string
+}
 
-export const createScaleX = (
-    data: any[],
-    size: ISizeSettings,
-    config: IChartConfiguration,
-    model: IDataModel
-): ScaleResult => {
+type getAtt = (d: IScaleFunc) => any;
+
+function getColNameWithMaxValue (model: IDataModel, axis: string[], data: any[]): string {
     const { columns } = model;
-    const rangeX = [size.margin.left, size.width];
-    const x = config.x;
-    let col: any;
+    let result: columnWithMaxValue;
 
-    for(const key in x){
-        const colName = x[key];
-        const colType = columns[colName].dataType;
-        const colWithMaxValue = data.reduce((prev, current) => (prev.x[colName] > current.x[colName]) ? prev : current);
-        const colValue = { n: colWithMaxValue.x[colName], v: colName };
+    axis.forEach(key => {
+        const colType = columns[key].dataType;
+        const colValue = data.reduce((prev, current) => (prev[key] > current[key]) ? prev : current);
+        const colWithMaxValue = { num: colValue[key], name: key };
 
-        if (colType === DataTypeEnum.number) {
-            col = !col ? colValue :
-                colValue.n > col.n ?
-                    colValue : col;
-        } else {
-            col = colValue;
-        }
-    }
+        colType === DataTypeEnum.number ?
+            result = !result ? colWithMaxValue :
+                colWithMaxValue.num > result.num ?
+                    colWithMaxValue : result :
+            result = colWithMaxValue;
+    });
 
-    const getAttX = (d: IScaleFunc) => d.x[col.v] ? d.x[col.v] : d.x;
-    const columnTypeX = columns[col.v].dataType;
+    return result.name;
+}
 
-    switch (columnTypeX) {
+function getScaleType (type: DataTypeEnum, range: number[], att: getAtt, data: any[]): ScaleResult {
+    switch (type) {
         case DataTypeEnum.date:
             return d3
                 .scaleTime()
-                .domain(<any>d3.extent(data,getAttX))
-                .range(rangeX);
+                .domain(<any>d3.extent(data, att))
+                .range(range);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
-                .domain(data.map(getAttX))
-                .range(rangeX);
+                .domain(data.map(att))
+                .range(range);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
-                .domain([0, d3.max(data, getAttX)])
+                .domain([0, d3.max(data, att)])
                 .nice()
-                .range(rangeX);
-        default:
-            return d3
-                .scaleBand()
-                .domain(<any>d3.range(data.length))
-                .range(rangeX);
+                .range(range);
     }
-};
+}
 
-export const createScaleY = (
-    data: any[],
-    size: ISizeSettings,
-    config: IChartConfiguration,
-    model: IDataModel
-): ScaleResult => {
+export const createScale: ScaleCreator = (axis, data, size, config, model): ScaleResult => {
     const { columns } = model;
-    const rangeY = [size.height - size.margin.bottom, size.margin.top];
-    const y = config.y;
-    let col: any;
+    const axisName = config[axis];
+    const name  = getColNameWithMaxValue(model, axisName, data);
+    const columnType = columns[name].dataType;
 
-    for (const key in y) {
-        const colName = y[key];
-        const colType = columns[colName].dataType;
-        const colWithMaxValue = data.reduce((prev, current) => (prev.y[colName] > current.y[colName]) ? prev : current);
-        const colValue = {
-            n: colWithMaxValue.y[colName],
-            v: colName
-        };
+    const getAtt: getAtt = (d: IScaleFunc) => d[axis][name] ? d[axis][name]: d[axis];
+    const range = axis === axisTypeEnum.x ? [size.margin.left, size.width] : [size.height - size.margin.bottom, size.margin.top];
 
-        if (colType === DataTypeEnum.number) {
-            col = !col ? colValue :
-                colValue.n > col.n ?
-                    colValue : col;
-        } else {
-            col = colValue;
-        }
-    }
-
-    const getAttY = (d: IScaleFunc) => d.y[col.v] ? d.y[col.v] : d.y;
-    const columnTypeY = columns[col.v].dataType;
-
-    switch (columnTypeY) {
-        case DataTypeEnum.date:
-            return d3
-                .scaleTime()
-                .domain(<any>d3.extent(data, getAttY))
-                .range(rangeY);
-        case DataTypeEnum.string:
-            return d3
-                .scaleBand()
-                .domain(data.map(getAttY))
-                .range(rangeY);
-        case DataTypeEnum.number:
-            return d3
-                .scaleLinear()
-                .domain([0, d3.max(data, getAttY)])
-                .nice()
-                .range(rangeY);
-        default:
-            return d3
-                .scaleBand()
-                .domain(<any>d3.range(data.length))
-                .range(rangeY);
-    }
+    return getScaleType(columnType, range, getAtt, data);
 };

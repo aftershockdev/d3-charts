@@ -10,6 +10,11 @@ export enum DataTypeEnum {
     date = "date",
 }
 
+export enum axisTypeEnum {
+  x = "x",
+  y = "y"
+}
+
 export interface IColumnModel {
     columnName: string;
     description: string;
@@ -47,4 +52,13 @@ export type ChartVisualizer = <T = any>
     size: ISizeSettings
 ) => void;
 
+export type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any>;
 
+export type ScaleCreator =
+(
+  axis: axisTypeEnum,
+  data: any[],
+  size: ISizeSettings,
+  config: IChartConfiguration,
+  model: IDataModel
+) => ScaleResult;

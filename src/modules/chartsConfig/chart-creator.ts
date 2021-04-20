@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
-import { IDataModel, IChartConfiguration, ISizeSettings } from "../interfaces/charts";
-import { createScaleX, createScaleY } from "./chart-scales";
+import { IDataModel, IChartConfiguration, ISizeSettings, axisTypeEnum } from "../interfaces/charts";
+import { createScale } from "./chart-scales";
 import { chartDataConfiguration } from "./chart-data";
 import { getChart } from "./chart-register";
 
@@ -28,11 +28,11 @@ export const showChart = (
         .attr("height", size.height)
         .attr("overflow", "visible");
 
-    const x = createScaleX(configData, size, config, dataModel);
-    const y = createScaleY(configData, size, config, dataModel);
+    const xScale = createScale(axisTypeEnum.x, configData, size, config, dataModel);
+    const yScale = createScale(axisTypeEnum.y, configData, size, config, dataModel);
 
-    const xAxis = d3.axisBottom(x);
-    const yAxis = d3.axisLeft(y);
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
 
     const nodeAxis = svg
         .append("g")

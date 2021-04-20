@@ -12,14 +12,14 @@ interface columnWithMaxValue  {
 
 type getAtt = (d: IScaleFunc) => any;
 
-function getColNameWithMaxValue (model: IDataModel, axis: string[], data: any[]): string {
+function getColNameWithMaxValue (axis:string, model: IDataModel, axisNames: string[], data: any[]): string {
     const { columns } = model;
     let result: columnWithMaxValue;
 
-    axis.forEach(key => {
+    axisNames.forEach(key => {
         const colType = columns[key].dataType;
-        const colValue = data.reduce((prev, current) => (prev[key] > current[key]) ? prev : current);
-        const colWithMaxValue = { num: colValue[key], name: key };
+        const colValue = data.reduce((prev, current) => (prev[axis][key] > current[axis][key]) ? prev : current);
+        const colWithMaxValue = { num: colValue[axis][key], name: key };
 
         colType === DataTypeEnum.number ?
             result = !result ? colWithMaxValue :
@@ -55,7 +55,7 @@ function getScaleType (type: DataTypeEnum, range: number[], att: getAtt, data: a
 export const createScale: ScaleCreator = (axis, data, size, config, model): ScaleResult => {
     const { columns } = model;
     const axisName = config[axis];
-    const name  = getColNameWithMaxValue(model, axisName, data);
+    const name  = getColNameWithMaxValue(axis, model, axisName, data);
     const columnType = columns[name].dataType;
 
     const getAtt: getAtt = (d: IScaleFunc) => d[axis][name] ? d[axis][name]: d[axis];

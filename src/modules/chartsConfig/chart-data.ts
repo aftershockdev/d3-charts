@@ -46,16 +46,15 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
         if (yLength > 1) {
             const y = {};
             let x: any;
-            for(const key in yCol) {
-                const name = yCol[key];
 
+            yCol.forEach((name, i) => {
                 if (columnTypeX === DataTypeEnum.date) {
                     x = new Date (el[xCol[0]]);
                 } else {
                     x = el[xCol[0]];
                 }
 
-                if (columns[yCol[key]].dataType === DataTypeEnum.date) {
+                if (columns[yCol[i]].dataType === DataTypeEnum.date) {
                     Object.assign(y,{
                         [name]: new Date(el[name])
                     });
@@ -64,22 +63,22 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
                         [name]: el[name]
                     });
                 }
-            }
+            });
+
             return x && y ?  { x, y } : null;
         }
         if (xLength > 1) {
             const x = {};
             let y: any;
-            for(const key in xCol) {
-                const name = xCol[key];
 
+            xCol.forEach((name, i) => {
                 if (columnTypeY === DataTypeEnum.date) {
                     y = new Date (el[yCol[0]]);
                 } else {
                     y = el[yCol[0]];
                 }
 
-                if(columns[xCol[key]].dataType === DataTypeEnum.date) {
+                if(columns[xCol[i]].dataType === DataTypeEnum.date) {
                     Object.assign(x,{
                         [name]: new Date(el[name])
                     });
@@ -88,7 +87,8 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
                         [name]: el[name]
                     });
                 }
-            }
+            });
+
             return x && y ?  { x, y } : null;
         }
 

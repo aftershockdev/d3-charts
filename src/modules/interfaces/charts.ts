@@ -49,7 +49,9 @@ export type ChartVisualizer = <T = any>
     config: IChartConfiguration,
     dataModel: IDataModel,
     data: T[],
-    size: ISizeSettings
+    size: ISizeSettings,
+    xScale?: ScaleResult,
+    yScale?: ScaleResult
 ) => void;
 
 export type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any>;

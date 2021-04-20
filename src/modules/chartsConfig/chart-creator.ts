@@ -56,5 +56,5 @@ export const showChart = (
         .call(yAxis);
 
 
-    chart(svg, config, dataModel, configData, size);
+    chart(svg, config, dataModel, configData, size, xScale, yScale);
 };

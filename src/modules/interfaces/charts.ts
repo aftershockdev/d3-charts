@@ -10,6 +10,11 @@ export enum DataTypeEnum {
     date = "date",
 }
 
+export enum axisTypeEnum {
+  x = "x",
+  y = "y"
+}
+
 export interface IColumnModel {
     columnName: string;
     description: string;
@@ -18,15 +23,12 @@ export interface IColumnModel {
     formatString?: string;
 }
 
+
 export interface IChartConfiguration {
     type: string;
-    x: string;
-    y: string;
+    x: string[];
+    y: string[];
 }
-
-export type SvgD3Selection = Selection<SVGElement, any, Element, any>;
-
-export type ChartVisualizer = <T = any>( node: SvgD3Selection, config: IChartConfiguration, dataModel: IDataModel, data: T[] ) => void;
 
 export interface ISizeSettings {
     width: number;
@@ -38,3 +40,27 @@ export interface ISizeSettings {
         left: number;
     };
 }
+
+export type SvgD3Selection = Selection<SVGElement, any, Element, any>;
+
+export type ChartVisualizer = <T = any>
+(
+    node: SvgD3Selection,
+    config: IChartConfiguration,
+    dataModel: IDataModel,
+    data: T[],
+    size: ISizeSettings,
+    xScale?: ScaleResult,
+    yScale?: ScaleResult
+) => void;
+
+export type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any>;
+
+export type ScaleCreator =
+(
+  axis: axisTypeEnum,
+  data: any[],
+  size: ISizeSettings,
+  config: IChartConfiguration,
+  model: IDataModel
+) => ScaleResult;

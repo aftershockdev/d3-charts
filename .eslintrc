@@ -68,6 +68,7 @@
         "prefer-destructuring": [1, { "AssignmentExpression": { "array": false } }],
         "quotes": [1, "double"],
         "radix": [0, "as-needed"],
+        "semi": "error",
         "space-in-parens": 0,
         // "space-in-parens": [1, "never", { "exceptions": ["empty", "(empty)"] }],
         "spaced-comment": 0

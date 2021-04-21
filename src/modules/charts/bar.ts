@@ -27,7 +27,7 @@ const drawBars: ChartVisualizer = (node, config, model, data, size, xScale, ySca
             .attr("x", (d: any) => xScale(d.x))
             .attr("y", (d: any) => yScale(d.y[key] ? d.y[key] : d.y))
             .attr("height", (d: any) => yScale(0) - yScale(d.y[key] ? d.y[key] : d.y))
-            .attr("width",(size.width - size.margin.right) / distance / 1.5);
+            .attr("width", (size.width - size.margin.right) / distance / 1.5);
 
     const barsX = (key: string, i: number) =>
         bar(i)

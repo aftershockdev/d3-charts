@@ -55,6 +55,5 @@ export const showChart = (
         .attr("transform", `translate(${size.margin.left}, 0)`)
         .call(yAxis);
 
-
     chart(svg, config, dataModel, configData, size, xScale, yScale);
 };

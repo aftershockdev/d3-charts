@@ -14,8 +14,8 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
     const xCol  = config.x;
     const yCol  = config.y;
 
-    const xLength = config.x.length;
-    const yLength = config.y.length;
+    const xLength = xCol.length;
+    const yLength = yCol.length;
 
     const allColumnsName: string[] = [...xCol, ...yCol];
     const numberColumns: string[] = [];
@@ -48,45 +48,40 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
             let x: any;
 
             yCol.forEach((name, i) => {
-                if (columnTypeX === DataTypeEnum.date) {
-                    x = new Date (el[xCol[0]]);
-                } else {
-                    x = el[xCol[0]];
-                }
+                x = columnTypeX === DataTypeEnum.date
+                    ? new Date (el[xCol[0]])
+                    : el[xCol[0]];
 
-                if (columns[yCol[i]].dataType === DataTypeEnum.date) {
-                    Object.assign(y,{
-                        [name]: new Date(el[name])
-                    });
-                } else {
-                    Object.assign(y,{
-                        [name]: el[name]
-                    });
-                }
+                const elV =el[name];
+                const v = columns[yCol[i]].dataType === DataTypeEnum.date
+                    ? new Date(elV)
+                    : elV;
+
+                Object.assign(y, {
+                    [name]: v
+                });
             });
 
             return x && y ?  { x, y } : null;
         }
+
         if (xLength > 1) {
             const x = {};
             let y: any;
 
             xCol.forEach((name, i) => {
-                if (columnTypeY === DataTypeEnum.date) {
-                    y = new Date (el[yCol[0]]);
-                } else {
-                    y = el[yCol[0]];
-                }
+                y = columnTypeY === DataTypeEnum.date
+                    ? new Date (el[yCol[0]])
+                    : el[yCol[0]];
 
-                if(columns[xCol[i]].dataType === DataTypeEnum.date) {
-                    Object.assign(x,{
-                        [name]: new Date(el[name])
-                    });
-                } else {
-                    Object.assign(x,{
-                        [name]: el[name]
-                    });
-                }
+                const elV =el[name];
+                const v = columns[xCol[i]].dataType === DataTypeEnum.date
+                    ? new Date(elV)
+                    : elV;
+
+                Object.assign(x, {
+                    [name]: v
+                });
             });
 
             return x && y ?  { x, y } : null;
@@ -95,12 +90,15 @@ export const chartDataConfiguration = (data: IElement[], config: IChartConfigura
         const x = el[xCol[0]];
         const y = el[yCol[0]];
 
-        if (columnTypeX === DataTypeEnum.date){
-            return  x && y ? {x: new Date(x), y} : null;
-        }
-        if (columnTypeY === DataTypeEnum.date){
-            return  x && y ? {y: new Date(y), x} : null;
-        }
-        return  x && y ? { x, y } : null;
+        if (!(x && y))
+            return null;
+
+        if (columnTypeX === DataTypeEnum.date)
+            return  { x: new Date(x), y };
+
+        if (columnTypeY === DataTypeEnum.date)
+            return  { y: new Date(y), x };
+
+        return  { x, y };
     });
 };

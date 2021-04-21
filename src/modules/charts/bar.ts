@@ -59,6 +59,7 @@ const drawBars: ChartVisualizer = (node, config, model, data, size, xScale, ySca
             barsY("", 1);
             return;
         }
+        barsY("", 1);
     }
 };
 

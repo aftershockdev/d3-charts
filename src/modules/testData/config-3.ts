@@ -560,20 +560,20 @@ export const data_3 = [
 
 export const chartConfigBar_3: IChartConfiguration = {
     type: "bar",
-    x: "Province",
-    y: "Confirmed",
+    x: ["Province"],
+    y: ["Confirmed"],
 };
 
 export const chartConfigLine_3: IChartConfiguration = {
     type: "line",
-    x: "Province",
-    y: "Confirmed",
+    x: ["Confirmed"],
+    y: ["Province"],
 };
 
 export const chartConfigDonut_3: IChartConfiguration = {
     type: "donut",
-    x: "Province",
-    y: "Confirmed",
+    x: ["Province"],
+    y: ["Confirmed"],
 };
 
 export const dataModel_3: IDataModel = {

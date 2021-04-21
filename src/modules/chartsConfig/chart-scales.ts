@@ -1,80 +1,65 @@
 import * as d3 from "d3";
-
-import { IChartConfiguration, IDataModel, ISizeSettings, DataTypeEnum } from "../interfaces/charts";
+import { IDataModel,  DataTypeEnum, axisTypeEnum, ScaleCreator, ScaleResult } from "../interfaces/charts";
 
 export interface IScaleFunc {
-    date: string;
-    value: number;
+  [key: string]: any;
 }
 
-type ScaleResult = d3.ScaleLinear<number, number, never> | d3.ScaleTime<number, number, never> | d3.ScaleBand<any> ;
+interface columnWithMaxValue  {
+  num: number,
+  name: string
+}
 
+type getAtt = (d: IScaleFunc) => any;
 
-const getDateAtt = (d: IScaleFunc) => d.date;
-const getValueAtt = (d: IScaleFunc) => d.value;
+function getColNameWithMaxValue (axis:string, model: IDataModel, axisNames: string[], data: any[]): string {
+    const { columns } = model;
+    let result: columnWithMaxValue;
 
-export const createScaleX = (
-    data: any[],
-    size: ISizeSettings,
-    config: IChartConfiguration,
-    model: IDataModel
-): ScaleResult => {
-    const columnTypeX = model.columns[config.x].dataType;
+    axisNames.forEach(key => {
+        const colType = columns[key].dataType;
+        const colValue = data.reduce((prev, current) => (prev[axis][key] > current[axis][key]) ? prev : current);
+        const colWithMaxValue = { num: colValue[axis][key], name: key };
 
-    switch (columnTypeX) {
+        colType === DataTypeEnum.number ?
+            result = !result ? colWithMaxValue :
+                colWithMaxValue.num > result.num ?
+                    colWithMaxValue : result :
+            result = colWithMaxValue;
+    });
+
+    return result.name;
+}
+
+function getScaleType (type: DataTypeEnum, range: number[], att: getAtt, data: any[]): ScaleResult {
+    switch (type) {
         case DataTypeEnum.date:
             return d3
                 .scaleTime()
-                .domain(<any>d3.extent(data,getDateAtt))
-                .range([size.margin.left, size.width]);
+                .domain(<any>d3.extent(data, att))
+                .range(range);
         case DataTypeEnum.string:
             return d3
                 .scaleBand()
-                .domain(data.map(getDateAtt))
-                .range([size.margin.left, size.width]);
+                .domain(data.map(att))
+                .range(range);
         case DataTypeEnum.number:
             return d3
                 .scaleLinear()
-                .domain([0, d3.max(data, getValueAtt)])
+                .domain([0, d3.max(data, att)])
                 .nice()
-                .range([size.height - size.margin.bottom, size.margin.top]);
-        default:
-            return d3
-                .scaleBand()
-                .domain(<any>d3.range(data.length))
-                .range([size.margin.left, size.width]);
+                .range(range);
     }
-};
+}
 
-export const createScaleY = (
-    data: any[],
-    size: ISizeSettings,
-    config: IChartConfiguration,
-    model: IDataModel
-): ScaleResult => {
-    const columnTypeY = model.columns[config.y].dataType;
+export const createScale: ScaleCreator = (axis, data, size, config, model): ScaleResult => {
+    const { columns } = model;
+    const axisName = config[axis];
+    const name  = getColNameWithMaxValue(axis, model, axisName, data);
+    const columnType = columns[name].dataType;
 
-    switch (columnTypeY) {
-        case DataTypeEnum.date:
-            return d3
-                .scaleTime()
-                .domain(<any>d3.extent(data, getDateAtt))
-                .range([size.margin.left, size.width]);
-        case DataTypeEnum.string:
-            return d3
-                .scaleBand()
-                .domain(data.map(getDateAtt))
-                .range([size.margin.left, size.width]);
-        case DataTypeEnum.number:
-            return d3
-                .scaleLinear()
-                .domain([0, d3.max(data, getValueAtt)])
-                .nice()
-                .range([size.height - size.margin.bottom, size.margin.top]);
-        default:
-            return d3
-                .scaleBand()
-                .domain(<any>d3.range(data.length))
-                .range([size.margin.left, size.width]);
-    }
+    const getAtt: getAtt = (d: IScaleFunc) => d[axis][name] ? d[axis][name]: d[axis];
+    const range = axis === axisTypeEnum.x ? [size.margin.left, size.width] : [size.height - size.margin.bottom, size.margin.top];
+
+    return getScaleType(columnType, range, getAtt, data);
 };

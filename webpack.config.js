@@ -27,4 +27,5 @@ module.exports = {
     resolve: {
         extensions: [".wasm", ".ts", ".tsx", ".mjs", ".cjs", ".js", ".json"],
     },
+    devtool: 'inline-source-map'
 };

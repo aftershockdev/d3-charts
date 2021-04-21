@@ -1,9 +1,12 @@
-import { ChartVisualizer, DataTypeEnum } from "../interfaces/charts";
+import { ChartVisualizer, DataTypeEnum  } from "../interfaces/charts";
+import { createAxis } from "../chartsConfig/chart-axis";
 import options  from "../chartsConfig/chart-options";
 
-const drawBars: ChartVisualizer = (node, config, model, data, size, xScale, yScale): void => {
+const drawBars: ChartVisualizer = (node, config, model, data, size): void => {
     const { columns } = model;
     const palette = options.defaultColors;
+
+    const { xScale, yScale } = createAxis(node, data, size, config, model);
 
     const yCol = config.y;
     const xCol = config.x;

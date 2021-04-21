@@ -21,11 +21,13 @@ function getColNameWithMaxValue (axis:string, model: IDataModel, axisNames: stri
         const colValue = data.reduce((prev, current) => (prev[axis][key] > current[axis][key]) ? prev : current);
         const colWithMaxValue = { num: colValue[axis][key], name: key };
 
-        colType === DataTypeEnum.number ?
+        if(colType === DataTypeEnum.number) {
             result = !result ? colWithMaxValue :
                 colWithMaxValue.num > result.num ?
-                    colWithMaxValue : result :
+                    colWithMaxValue : result;
+        } else  {
             result = colWithMaxValue;
+        }
     });
 
     return result.name;

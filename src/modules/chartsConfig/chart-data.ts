@@ -1,4 +1,4 @@
-import { IChartConfiguration, IDataModel, DataTypeEnum } from "../interfaces/charts";
+import { IChartConfiguration, IDataModel, DataTypeEnum, IColumnModel } from "../interfaces/charts";
 interface IElement {
     [key: string]: any;
 }
@@ -8,96 +8,86 @@ interface IValue {
     y: any;
 }
 
+function getColProperties(colArr: string[], el: IElement, columns: { [key: string]: IColumnModel }): IElement {
+    const result: IElement = {};
+    colArr.forEach(name => {
+        const elV = el[name];
+        const value = columns[name].dataType === DataTypeEnum.date
+            ? new Date(elV)
+            : elV;
+        result[name] = value;
+    });
+    return result;
+}
+
 export const chartDataConfiguration = (data: IElement[], config: IChartConfiguration, model: IDataModel): IValue[] => {
     const { columns } = model;
 
     const xCol  = config.x;
     const yCol  = config.y;
 
+    const firstNameX = xCol[0];
+    const firstNameY = yCol[0];
+
     const xLength = xCol.length;
     const yLength = yCol.length;
 
-    const allColumnsName: string[] = [...xCol, ...yCol];
+    const allColumnsName = [...xCol, ...yCol];
     const numberColumns: string[] = [];
-
-    const columnTypeX = columns[xCol[0]].dataType;
-    const columnTypeY = columns[yCol[0]].dataType;
 
     if (xLength > 1 && yLength > 1)
         throw new Error("One of the axes must be with one column");
 
-    for(const key of allColumnsName){
-        columns[key].dataType === DataTypeEnum.number ? numberColumns.push(key) : null;
-    }
+    allColumnsName.forEach(key => columns[key].dataType === DataTypeEnum.number ? numberColumns.push(key) : null);
 
     if(!numberColumns.length)
         throw new Error("One of the columns must be of type number");
 
-    const filteredData = data.filter(el => {
-        for (const k in allColumnsName) {
-            if (!el[allColumnsName[k]]) {
-                return;
+    const dataWithoutEmptyProp = data.filter(el => {
+        allColumnsName.forEach(name => {
+            if (!el[name]) {
+                const type = columns[name].dataType;
+                switch (type) {
+                    case DataTypeEnum.date:
+                        return;
+                    case DataTypeEnum.string:
+                        return el[name] = "Empty";
+                    case DataTypeEnum.number:
+                        return el[name] = 1;
+                }
             }
-        }
+        });
         return el;
     });
 
-    return filteredData.map(el => {
+    const columnTypeX = columns[firstNameX].dataType;
+    const columnTypeY = columns[firstNameY].dataType;
+
+    return dataWithoutEmptyProp.map(el => {
+        let x = el[firstNameX];
+        let y = el[firstNameY];
+
         if (yLength > 1) {
-            const y = {};
-            let x: any;
-
-            yCol.forEach((name, i) => {
-                x = columnTypeX === DataTypeEnum.date
-                    ? new Date (el[xCol[0]])
-                    : el[xCol[0]];
-
-                const elV =el[name];
-                const v = columns[yCol[i]].dataType === DataTypeEnum.date
-                    ? new Date(elV)
-                    : elV;
-
-                Object.assign(y, {
-                    [name]: v
-                });
-            });
-
-            return x && y ?  { x, y } : null;
+            x = columnTypeX === DataTypeEnum.date
+                ? new Date (el[firstNameX])
+                : el[firstNameX];
+            y = getColProperties(yCol, el, columns);
         }
 
         if (xLength > 1) {
-            const x = {};
-            let y: any;
-
-            xCol.forEach((name, i) => {
-                y = columnTypeY === DataTypeEnum.date
-                    ? new Date (el[yCol[0]])
-                    : el[yCol[0]];
-
-                const elV =el[name];
-                const v = columns[xCol[i]].dataType === DataTypeEnum.date
-                    ? new Date(elV)
-                    : elV;
-
-                Object.assign(x, {
-                    [name]: v
-                });
-            });
-
-            return x && y ?  { x, y } : null;
+            y = columnTypeY === DataTypeEnum.date
+                ? new Date (el[firstNameY])
+                : el[firstNameY];
+            x = getColProperties(xCol, el, columns);
         }
-
-        const x = el[xCol[0]];
-        const y = el[yCol[0]];
 
         if (!(x && y))
             return null;
 
-        if (columnTypeX === DataTypeEnum.date)
-            return  { x: new Date(x), y };
-
-        if (columnTypeY === DataTypeEnum.date)
-            return  { y: new Date(y), x };
+        if (yLength === 1 && xLength === 1) {
+            columnTypeX === DataTypeEnum.date ? x = new Date(x) : null;
+            columnTypeY === DataTypeEnum.date ? y = new Date(y) : null;
+        }
 
         return  { x, y };
     });
